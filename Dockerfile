@@ -29,6 +29,8 @@ CMD ["pnpm", "start"]
 FROM build AS client
 ENV NODE_ENV="production"
 WORKDIR /snailycad/apps/client
+RUN apt-get update -y && apt-get install -y ca-certificates --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
 RUN rm -rf /snailycad/apps/client/.next
 RUN pnpm create-images-domain
 RUN pnpm run build
