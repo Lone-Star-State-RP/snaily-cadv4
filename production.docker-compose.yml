@@ -12,7 +12,7 @@ services:
     networks:
       - cad_web
     volumes:
-      - ./.data:/var/lib/postgresql/data
+      - cad_data:/var/lib/postgresql/data
     restart: unless-stopped
 
   api:
@@ -51,3 +51,6 @@ services:
 
 networks:
   cad_web:
+
+volumes:
+  cad_data:
