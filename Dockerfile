@@ -16,6 +16,10 @@ FROM deps AS build
 
 ENV NODE_ENV="production"
 
+RUN DEBIAN_FRONTEND=noninteractive apt-get update -y && \
+    apt-get install -y openssl ca-certificates --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
+
 # Build all packages (this will also build the API and Client)
 RUN pnpm turbo run build --filter="{packages/*}"
 
@@ -23,18 +27,12 @@ RUN pnpm turbo run build --filter="{packages/*}"
 FROM build AS api
 ENV NODE_ENV="production"
 WORKDIR /snailycad/apps/api
-RUN DEBIAN_FRONTEND=noninteractive apt-get update -y && \
-    apt-get install -y openssl ca-certificates --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/*
 RUN pnpm run build
 CMD ["pnpm", "start"]
 
 FROM build AS client
 ENV NODE_ENV="production"
 WORKDIR /snailycad/apps/client
-RUN DEBIAN_FRONTEND=noninteractive apt-get update -y && \
-    apt-get install -y openssl ca-certificates --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/*
 RUN rm -rf /snailycad/apps/client/.next
 RUN pnpm create-images-domain
 RUN pnpm run build
