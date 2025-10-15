@@ -17,7 +17,7 @@ FROM deps AS build
 ENV NODE_ENV="production"
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update -y && \
-    apt-get install -y openssl ca-certificates --no-install-recommends \
+    apt-get install -y openssl ca-certificates git --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Build all packages (this will also build the API and Client)
