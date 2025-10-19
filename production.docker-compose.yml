@@ -19,6 +19,8 @@ services:
       context: .
       dockerfile: ./Dockerfile
       target: api
+    ports:
+      - "${PORT_API}:${PORT_API}"
     expose:
       - ${PORT_API}
     depends_on:
@@ -37,8 +39,8 @@ services:
       target: client
     # Optional: If deploying outside of Coolify or a managed router (like Traefik),
     # uncomment the 'ports:' section below to map a host port to the container port.
-    # ports:
-    #   - "${PORT_CLIENT}:${PORT_CLIENT}"
+    ports:
+      - "${PORT_CLIENT}:${PORT_CLIENT}"
     expose:
       - ${PORT_CLIENT}
     depends_on:
